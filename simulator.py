@@ -34,6 +34,8 @@ def simulate_process(target_process, api_key, description_generation_model, simu
     The OCEL object in pm4py is stored in the class OCEL contained in pm4py.objects.ocel.obj
 
     In the pm4py process mining library, the OCEL class is a collection of different dataframes, containing at least the following columns:
+    The constructor of OCEL objects is __init__(self, events=None, objects=None, relations=None, globals=None, parameters=None, o2o=None, e2e=None,
+                 object_changes=None)
 
 
     ocel.events
