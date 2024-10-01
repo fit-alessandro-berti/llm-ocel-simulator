@@ -1,6 +1,6 @@
 import requests
 import traceback
-import pm4py
+import os
 
 
 def make_api_call(prompt, api_key, api_model) -> str:
@@ -23,7 +23,7 @@ def make_api_call(prompt, api_key, api_model) -> str:
     return content
 
 
-def simulate_process(target_process, api_key, description_generation_model, simulation_generation_model, output_file="output.xml"):
+def simulate_process(target_process, api_key, description_generation_model, simulation_generation_model, output_file="output.xml", simulation_script="simulation.py"):
     F = open("target_process.txt", "w")
     F.write(target_process)
     F.close()
@@ -133,7 +133,10 @@ def simulate_process(target_process, api_key, description_generation_model, simu
         process_simulation = make_api_call(process_description, api_key=api_key, api_model=simulation_generation_model)
         print(process_simulation)
         process_simulation = process_simulation.split("```python")[1].split("```")[0]
-        exec(process_simulation)
+        F = open(simulation_script, "w")
+        F.write(process_simulation)
+        F.close()
+        os.system("python "+simulation_script)
     except:
         traceback.print_exc()
 
