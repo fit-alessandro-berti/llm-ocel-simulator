@@ -24,6 +24,10 @@ def make_api_call(prompt, api_key, api_model) -> str:
 
 
 def simulate_process(target_process, api_key, description_generation_model, simulation_generation_model, output_file="output.xml"):
+    F = open("target_process.txt", "w")
+    F.write(target_process)
+    F.close()
+
     process_description_request = "Generate a description of real-life process with many different object types and high degree of variability, batching, synchronization, and workarounds. describe everything in detail."
 
     process_simulation_generation_request = """
@@ -114,6 +118,10 @@ def simulate_process(target_process, api_key, description_generation_model, simu
 
     process_description = process_simulation_generation_request.replace("!!REPLACE HERE!!", process_description)
     process_description = process_description.replace("output.xml", output_file)
+
+    F = open("process_description.txt", "w")
+    F.write(process_description)
+    F.close()
 
     print(process_description)
 
