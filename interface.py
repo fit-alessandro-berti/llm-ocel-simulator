@@ -27,8 +27,8 @@ with st.form("simulation_form"):
     api_key = st.text_input("API Key:", type="password")
     desc_model = st.text_input("Description Generation Model:", value="gpt-4o-2024-08-06")
     sim_model = st.text_input("Simulation Generation Model:", value="o1-preview-2024-09-12")
-    #output_file = st.text_input("Output File Name:", value="output.xml")
     output_file = "output_"+str(random.randrange(1, 10000))+".xml"
+    simulation_script = "simscript_"+str(random.randrange(1, 10000))+".py"
     submitted = st.form_submit_button("Run Simulation")
 
 # Placeholder for output
@@ -50,7 +50,8 @@ if submitted:
                     api_key=api_key,
                     description_generation_model=desc_model,
                     simulation_generation_model=sim_model,
-                    output_file=output_file
+                    output_file=output_file,
+                    simulation_script=simulation_script
                 )
             except Exception as e:
                 print(f"An error occurred: {e}")

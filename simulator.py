@@ -23,7 +23,7 @@ def make_api_call(prompt, api_key, api_model) -> str:
     return content
 
 
-def simulate_process(target_process, api_key, description_generation_model, simulation_generation_model, output_file="output.xml", simulation_script="simulation.py"):
+def simulate_process(target_process, api_key, description_generation_model, simulation_generation_model, output_file="output.xml", simulation_script="simscript.py"):
     F = open("target_process.txt", "w")
     F.write(target_process)
     F.close()
@@ -129,16 +129,24 @@ def simulate_process(target_process, api_key, description_generation_model, simu
 
     print("\n\n== Generating Process Simulation ==\n\n")
 
-    try:
-        process_simulation = make_api_call(process_description, api_key=api_key, api_model=simulation_generation_model)
-        print(process_simulation)
-        process_simulation = process_simulation.split("```python")[1].split("```")[0]
-        F = open(simulation_script, "w")
-        F.write(process_simulation)
+    ite = 0
+    while not os.path.exists(output_file):
+        ite = ite + 1
+
+        F = open("iterations.txt", "w")
+        F.write(str(ite))
         F.close()
-        os.system("python "+simulation_script)
-    except:
-        traceback.print_exc()
+
+        try:
+            process_simulation = make_api_call(process_description, api_key=api_key, api_model=simulation_generation_model)
+            print(process_simulation)
+            process_simulation = process_simulation.split("```python")[1].split("```")[0]
+            F = open(simulation_script, "w")
+            F.write(process_simulation)
+            F.close()
+            os.system("python "+simulation_script)
+        except:
+            traceback.print_exc()
 
 
 if __name__ == "__main__":
