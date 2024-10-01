@@ -3,6 +3,8 @@ import io
 import sys
 import os
 from simulator import simulate_process
+import random
+
 
 # Function to capture print statements
 class StreamCapture(io.StringIO):
@@ -18,14 +20,15 @@ class StreamCapture(io.StringIO):
         return self.output
 
 # Streamlit app layout
-st.title("Process Simulation Interface")
+st.title("OCEL Simulation Interface")
 
 with st.form("simulation_form"):
     target_process = st.text_input("Target Process (optional):")
     api_key = st.text_input("API Key:", type="password")
     desc_model = st.text_input("Description Generation Model:", value="gpt-4o-2024-08-06")
     sim_model = st.text_input("Simulation Generation Model:", value="o1-preview-2024-09-12")
-    output_file = st.text_input("Output File Name:", value="output.xml")
+    #output_file = st.text_input("Output File Name:", value="output.xml")
+    output_file = "output_"+str(random.randrange(1, 10000))+".xml"
     submitted = st.form_submit_button("Run Simulation")
 
 # Placeholder for output
