@@ -77,6 +77,7 @@ def simulate_process(target_process, api_key, description_generation_model, simu
     Could you create a Python script to simulate an object-centric event log?
     Please include at least 30 different activities in the object-centric event log and at least 6 different object types.
     Please include at least 5000 events and 5000 objects.
+    Do not randomly choose activities! Make sure that the process flow is consistent with the process!
 
     The result should be stored in the "ocel" variable.
 
