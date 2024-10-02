@@ -25,7 +25,7 @@ st.title("OCEL Simulation Interface")
 with st.form("simulation_form"):
     target_process = st.text_input("Target Process (optional):")
     api_key = st.text_input("API Key:", type="password")
-    desc_model = st.text_input("Description Generation Model:", value="gpt-4o-2024-08-06")
+    desc_model = st.text_input("Description Generation Model:", value="chatgpt-4o-latest")
     sim_model = st.text_input("Simulation Generation Model:", value="o1-preview-2024-09-12")
     output_file = "output_"+str(random.randrange(1, 10000))+".xml"
     simulation_script = "simscript_"+str(random.randrange(1, 10000))+".py"
