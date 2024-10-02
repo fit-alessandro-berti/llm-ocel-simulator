@@ -106,6 +106,8 @@ def simulate_process(target_process, api_key, description_generation_model, simu
     ocel.relations["ocel:timestamp"] = ocel.relations["ocel:eid"].map(ocel_id_time)
     ocel.relations["ocel:type"] = ocel.relations["ocel:oid"].map(ocel_objects)
     ocel.relations.dropna(subset=["ocel:activity", "ocel:timestamp", "ocel:type"], inplace=True)
+    if "ocel:qualifier" not in ocel.relations.columns:
+        ocel.relations["ocel:qualifier"] = [None] * len(ocel.relations)
     ocel = ocel_consistency.apply(ocel)
     ocel = filtering_utils.propagate_relations_filtering(ocel)
 
