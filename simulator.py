@@ -96,7 +96,16 @@ def simulate_process(target_process, api_key, description_generation_model, simu
     import pm4py
     from pm4py.objects.ocel.util import ocel_consistency
     from pm4py.objects.ocel.util import filtering_utils
-
+    
+    ocel_events = ocel.events[["ocel:eid", "ocel:activity", "ocel:timestamp"]].to_dict("records")
+    ocel_objects = ocel.objects[["ocel:oid", "ocel:type"]].to_dict("records")
+    ocel_id_act = {x["ocel:eid"]: x["ocel:activity"] for x in ocel_events}
+    ocel_id_time = {x["ocel:eid"]: x["ocel:timestamp"] for x in ocel_events}
+    ocel_objects = {x["ocel:oid"]: x["ocel:type"] for x in ocel_objects}
+    ocel.relations["ocel:activity"] = ocel.relations["ocel:eid"].map(ocel_id_act)
+    ocel.relations["ocel:timestamp"] = ocel.relations["ocel:eid"].map(ocel_id_time)
+    ocel.relations["ocel:type"] = ocel.relations["ocel:oid"].map(ocel_objects)
+    ocel.relations.dropna(subset=["ocel:activity", "ocel:timestamp", "ocel:type"], inplace=True)
     ocel = ocel_consistency.apply(ocel)
     ocel = filtering_utils.propagate_relations_filtering(ocel)
 
