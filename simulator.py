@@ -140,6 +140,9 @@ def simulate_process(target_process, api_key, description_generation_model, simu
 
         try:
             process_simulation = make_api_call(process_description, api_key=api_key, api_model=simulation_generation_model)
+            F = open("process_simulation.txt", "w")
+            F.write(process_simulation)
+            F.close()
             print(process_simulation)
             process_simulation = process_simulation.split("```python")[1].split("```")[0]
             F = open(simulation_script, "w")
@@ -152,7 +155,7 @@ def simulate_process(target_process, api_key, description_generation_model, simu
 
 if __name__ == "__main__":
     API_KEY = open("api_key.txt", "r").read().strip()
-    DESCRIPTION_GENERATION_MODEL = "gpt-4o-2024-08-06"
+    DESCRIPTION_GENERATION_MODEL = "chatgpt-4o-latest"
     SIMULATION_GENERATION_MODEL = "o1-preview-2024-09-12"
 
     target_process = input("Target process (possibly empty if you don't know)  ->  ")
