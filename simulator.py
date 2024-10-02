@@ -114,22 +114,6 @@ def simulate_process(target_process, api_key, description_generation_model, simu
     print("\n\n")
     print(process_description_request)
 
-    print("\n\n== Generating Process Description ==\n\n")
-
-    process_description = make_api_call(process_description_request, api_key=api_key,
-                                        api_model=description_generation_model)
-
-    process_description = process_simulation_generation_request.replace("!!REPLACE HERE!!", process_description)
-    process_description = process_description.replace("output.xml", output_file)
-
-    F = open("process_description.txt", "w")
-    F.write(process_description)
-    F.close()
-
-    print(process_description)
-
-    print("\n\n== Generating Process Simulation ==\n\n")
-
     ite = 0
     while not os.path.exists(output_file):
         ite = ite + 1
@@ -137,6 +121,22 @@ def simulate_process(target_process, api_key, description_generation_model, simu
         F = open("iterations.txt", "w")
         F.write(str(ite))
         F.close()
+
+        print("\n\n== Generating Process Description ==\n\n")
+
+        process_description = make_api_call(process_description_request, api_key=api_key,
+                                            api_model=description_generation_model)
+
+        process_description = process_simulation_generation_request.replace("!!REPLACE HERE!!", process_description)
+        process_description = process_description.replace("output.xml", output_file)
+
+        F = open("process_description.txt", "w")
+        F.write(process_description)
+        F.close()
+
+        print(process_description)
+
+        print("\n\n== Generating Process Simulation ==\n\n")
 
         try:
             process_simulation = make_api_call(process_description, api_key=api_key, api_model=simulation_generation_model)
